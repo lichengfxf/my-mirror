@@ -14,22 +14,24 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(480, 640)
-        self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
-        self.buttonBox.setGeometry(QtCore.QRect(390, 10, 81, 621))
-        self.buttonBox.setOrientation(QtCore.Qt.Vertical)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName("buttonBox")
-        self.btnHello = QtWidgets.QPushButton(Dialog)
-        self.btnHello.setGeometry(QtCore.QRect(30, 10, 41, 31))
-        self.btnHello.setObjectName("btnHello")
+        Dialog.resize(700, 1000)
+        Dialog.setStyleSheet("background-color: rgb(0, 0, 0);")
+        self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.Video = QtWidgets.QWidget(Dialog)
+        self.Video.setStyleSheet("background-color: rgb(0, 85, 127);")
+        self.Video.setObjectName("Video")
+        self.verticalLayout.addWidget(self.Video)
+        self.Voice = QtWidgets.QWidget(Dialog)
+        self.Voice.setStyleSheet("background-color: rgb(0, 170, 127);")
+        self.Voice.setObjectName("Voice")
+        self.verticalLayout.addWidget(self.Voice)
+        self.verticalLayout.setStretch(0, 2)
+        self.verticalLayout.setStretch(1, 1)
 
         self.retranslateUi(Dialog)
-        self.buttonBox.accepted.connect(Dialog.accept)
-        self.buttonBox.rejected.connect(Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.btnHello.setText(_translate("Dialog", "你好"))
+        Dialog.setWindowTitle(_translate("Dialog", "MagicMirror"))

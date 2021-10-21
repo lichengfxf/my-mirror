@@ -10,7 +10,9 @@ PyQt、Electron
 显示天气、日程
 
 #### 语音交互
-语音唤醒镜子
+1. 语音唤醒镜子, 使用snowboy
+[https://www.jianshu.com/p/a1c06020f5fd]
+2. 播放视频
 
 #### 手势交互
 游戏
