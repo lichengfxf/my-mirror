@@ -1,0 +1,1 @@
+config_face_cascad_file_path = "haarcascade_frontalface_alt2.xml"

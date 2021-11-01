@@ -1,0 +1,10 @@
+{
+    "version": 1,
+    "config": [
+       {
+            "name": "ssd",
+            "lable": 1,
+            "img_dir": "img_face/ssd/"
+       }
+   ]
+}
