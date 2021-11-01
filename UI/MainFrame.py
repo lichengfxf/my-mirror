@@ -9,4 +9,4 @@ def run():
     w = MainDlg()
     w.show()
 
-    sys.exit(app.exec_())
+    app.exec_()
