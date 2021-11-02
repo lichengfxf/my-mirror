@@ -1,4 +1,4 @@
 from Advance.Monitor import monitor_human
 
-def run():
+def start():
     monitor_human.init()

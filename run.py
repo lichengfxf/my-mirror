@@ -1,15 +1,18 @@
-from UI import ui
+from Common import common
 from Advance import advance
+from UI import ui
 import time
 
 #
 # 加载各个模块
 #
 def load_modules():
+    # 公用模块
+    common.start()
     # 扩展模块
-    advance.run()
+    advance.start()
     # 加载界面
-    ui.run()
+    ui.start()
 
 # 运行
 if __name__ == "__main__":

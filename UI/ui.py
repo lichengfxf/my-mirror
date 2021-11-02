@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QApplication
 from UI.Wnd.MainDlg import *
 
 # 执行
-def run():
+def start():
     app = QApplication(sys.argv)
 
     w = MainDlg()

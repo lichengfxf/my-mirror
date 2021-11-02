@@ -6,6 +6,7 @@ from . import Ui_maindlg
 from Advance.Monitor import monitor_human
 import cv2
 from cvzone.FaceDetectionModule import FaceDetector
+from Common import video
 
 #
 # 主界面
@@ -48,16 +49,9 @@ class VideoThread(QThread):
     detector = FaceDetector()
 
     def run(self):
-        cap = cv2.VideoCapture(0)
         while True:
-            ret, frame = cap.read()
+            ret, frame = video.read_frame()
             if ret:
-                # 因为摄像头看到的是镜像的图片，所以水平翻转图片
-                frame = cv2.flip(frame, 1)
-
-                # 监控
-                monitor_human.monitor(frame)
-
                 # 转换成QImage
                 rgbImage  = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 h, w, ch = rgbImage.shape
