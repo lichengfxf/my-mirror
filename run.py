@@ -1,10 +1,13 @@
 from UI import ui
+from Advance import advance
 import time
 
 #
 # 加载各个模块
 #
 def load_modules():
+    # 扩展模块
+    advance.run()
     # 加载界面
     ui.run()
 

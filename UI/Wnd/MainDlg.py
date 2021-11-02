@@ -1,9 +1,9 @@
 from PyQt5.QtWidgets import QDialog, QMessageBox, QWidget
-from PyQt5.QtWidgets import  QLabel, QApplication
 from PyQt5.QtCore import QThread, Qt, pyqtSignal, pyqtSlot
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5 import QtCore
 from . import Ui_maindlg
+from Advance.Monitor import monitor_human
 import cv2
 from cvzone.FaceDetectionModule import FaceDetector
 
@@ -54,9 +54,12 @@ class VideoThread(QThread):
             if ret:
                 # 因为摄像头看到的是镜像的图片，所以水平翻转图片
                 frame = cv2.flip(frame, 1)
-                frame, bboxs = self.detector.findFaces(frame)
-                rgbImage  = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+                # 监控
+                monitor_human.monitor(frame)
+
                 # 转换成QImage
+                rgbImage  = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 h, w, ch = rgbImage.shape
                 bytesPerLine = ch * w
                 convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
