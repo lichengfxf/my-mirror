@@ -1,17 +1,22 @@
+#
+# 图形界面主窗口
+#
+# 2021-10-23
+# by 李成
+#
+
 from PyQt5.QtWidgets import QDialog, QMessageBox, QWidget
 from PyQt5.QtCore import QThread, Qt, pyqtSignal, pyqtSlot
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5 import QtCore
-from . import Ui_maindlg
-from Advance.Monitor import monitor_human
 import cv2
-from cvzone.FaceDetectionModule import FaceDetector
 from Common import video
+from . import Ui_main_wnd
 
 #
 # 主界面
 #
-class MainDlg(QDialog, Ui_maindlg.Ui_Dialog):
+class MainDlg(QDialog, Ui_main_wnd.Ui_Dialog):
     def __init__(self):
         # 初始化
         super(MainDlg, self).__init__()
@@ -45,8 +50,6 @@ class VideoThread(QThread):
     # 通过信号把视频图片发送到主界面
     #
     show_vedio_img = pyqtSignal(QImage)
-
-    detector = FaceDetector()
 
     def run(self):
         while True:

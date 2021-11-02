@@ -1,3 +1,10 @@
+#
+# 入口模块
+#
+# 2021-11-01
+# by 李成
+#
+
 from Common import common
 from Advance import advance
 from UI import ui

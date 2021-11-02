@@ -1,3 +1,12 @@
+#
+# 监控模块
+#
+# 定时检测摄像头，如果发现有人就拍一张照片保存到本地
+#
+# 2021-11-02
+# by 李成
+#
+
 from config import *
 from cvzone.FaceDetectionModule import FaceDetector
 from datetime import datetime, time

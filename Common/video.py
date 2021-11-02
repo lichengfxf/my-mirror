@@ -1,3 +1,12 @@
+#
+# 视频读取模块
+#
+# 此模块提供一个接口，用于给其他模块读取摄像头数据
+#
+# 2021-11-02
+# by 李成
+#
+
 import cv2
 from PyQt5.QtCore import QMutex
 

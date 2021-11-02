@@ -1,6 +1,9 @@
 #
-# 配置信息
-# 
+# 项目配置文件
+#
+# 2021-11-01
+# by 李成
+#
 
 #
 # 人脸识别模块
@@ -16,5 +19,5 @@ config_face_cascad_file_path = "AI/FaceRecognition/haarcascade_frontalface_alt2.
 # 监控模块
 # 监控数据保存路径
 config_advance_monitor_data_dir = "Advance/Monitor/Data"
-# 多久截一张图
+# 多久截一张图, 单位：秒
 config_advance_monitor_interval = 3
