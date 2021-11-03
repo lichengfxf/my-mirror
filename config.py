@@ -9,8 +9,12 @@
 # 人脸识别模块
 #
 
-# 人脸分类器模型文件递增
-config_face_cascad_file_path = "AI/FaceRecognition/haarcascade_frontalface_alt2.xml"
+# 人脸分类器模型文件路径
+config_ai_fr_face_cascad_file_path = "AI/FaceRecognition/haarcascade_frontalface_alt2.xml"
+# 人脸识别模型文件路径
+config_ai_fr_lbph_face_recong = "AI/FaceRecognition/lbph_face_recong.yml"
+# 收集的人脸数据保存目录
+config_ai_fr_data_collect = "AI/FaceRecognition/Data/Collect"
 
 #
 # 扩展功能模块

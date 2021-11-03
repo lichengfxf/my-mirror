@@ -1,7 +1,8 @@
 #
 # 使用face_collect.py收集到的人脸数据进行训练
+# 使用模型LBPHFaceRecognizer
 #
-# 2021-09-10
+# 2021-11-03
 # by 李成
 #
 
@@ -10,6 +11,7 @@ import os
 import numpy
 import json
 from PIL import Image
+from config import *
 
 #
 # 从目录载入图像
@@ -34,17 +36,17 @@ def load_img_and_lables(lable_file_path):
     train_imgs = []
     train_lables = []
     # 从json文件读取配置信息
-    fp = open(lable_file_path)
-    j = json.load(fp)
-    config = j["config"]
-    for c in config:
-        name = c["name"]
-        lable = c["lable"]
-        img_dir = c["img_dir"]
-        
-        count = load_imgs(img_dir, train_imgs)
-        for i in range(count):
-            train_lables.append(lable)
+    with open(lable_file_path) as fp:
+        j = json.load(fp)
+        config = j["config"]
+        for c in config:
+            name = c["name"]
+            lable = c["lable"]
+            img_dir = c["img_dir"]
+            
+            count = load_imgs(img_dir, train_imgs)
+            for i in range(count):
+                train_lables.append(lable)
     return train_imgs, train_lables
 
 #
@@ -54,4 +56,4 @@ if __name__ == "__main__":
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     train_imgs, train_lables = load_img_and_lables("img_lables_conf.json")
     recognizer.train(train_imgs, numpy.array(train_lables))
-    recognizer.save("lbph_face_recong.yml")
+    recognizer.save(config_ai_fr_lbph_face_recong)

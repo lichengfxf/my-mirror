@@ -1,12 +1,13 @@
 #
-# 入口模块
+# 项目入口模块
 #
-# 2021-11-01
+# 2021-10-20
 # by 李成
 #
 
 from Common import common
 from Advance import advance
+from AI import ai
 from UI import ui
 import time
 
@@ -18,6 +19,8 @@ def load_modules():
     common.start()
     # 扩展模块
     advance.start()
+    # 人工智能模块
+    ai.start()
     # 加载界面
     ui.start()
 

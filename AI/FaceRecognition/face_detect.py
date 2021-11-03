@@ -1,12 +1,13 @@
 #
 # 使用opencv自带的人脸检测分类器，检测人脸
 #
-# 2021-09-09
+# 2021-11-03
 # by 李成
 #
 
 import os
 import cv2
+from config import *
 
 #
 # 人脸检测
@@ -16,7 +17,7 @@ import cv2
 #
 # 返回值：人脸部图像和对应的坐标，如果图像有多个人脸也仅仅返回1个
 #
-def face_detect(img, face_cascad): 
+def detect_face_from_img(img, face_cascad): 
     # 转成灰度图片，提高检测速度
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -34,9 +35,9 @@ def face_detect(img, face_cascad):
 #
 # 返回值：人脸部图像和对应的坐标，如果图像有多个人脸也仅仅返回1个
 #
-def detect_from_file(file_path, face_cascad):
+def detect_face_from_file(file_path, face_cascad):
     img = cv2.imread(file_path)
-    face_gray, rect = face_detect(img, face_cascad)
+    face_gray, rect = detect_face_from_img(img, face_cascad)
     if len(face_gray) == 0:
         return [], []
 
@@ -63,7 +64,7 @@ def dectect_from_camera(face_cascad):
         ret, frame = camera.read()
 
         # 开始检测人脸
-        face_gray, rect = face_detect(frame, face_cascad)
+        face_gray, rect = detect_face_from_img(frame, face_cascad)
         if len(face_gray) == 0:
             continue
         
@@ -87,7 +88,7 @@ def dectect_from_camera(face_cascad):
 #
 if __name__ == "__main__":
     # 载入人类检测分类器
-    face_cascad = cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml")
+    face_cascad = cv2.CascadeClassifier(config_ai_fr_face_cascad_file_path)
 
     #
     # 从摄像头检测人脸
@@ -101,7 +102,7 @@ if __name__ == "__main__":
     dst_img_dir = "img_face/ssd/"
     for file in os.listdir(src_img_dir):
         file_path = os.path.join(src_img_dir, file)
-        face, rect = detect_from_file(file_path, face_cascad)
+        face, rect = detect_face_from_file(file_path, face_cascad)
         if len(face) != 0:
             # 保存检测到的人脸
             cv2.imwrite(dst_img_dir + file, face)
