@@ -14,7 +14,6 @@ from PyQt5.QtCore import QThread
 from Common import video
 import os
 import cv2
-import time
 # vscode多线程调试断点无法断下，使用pdb手动调试
 import pdb
 
@@ -30,7 +29,7 @@ g_mh_thread = None
 class monitor_thread(QThread):
     def run(self):
         while True:
-            time.sleep(config_advance_monitor_interval)
+            self.sleep(config_advance_monitor_interval)
             # 设置调试断点
             #pdb.set_trace()
             ret, frame = video.read_frame()

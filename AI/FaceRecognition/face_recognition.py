@@ -7,7 +7,6 @@
 
 import cv2
 from PIL import Image
-from . import face_detect
 from config import *
 
 #

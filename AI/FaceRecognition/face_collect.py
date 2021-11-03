@@ -13,7 +13,7 @@ from numpy.lib.function_base import select
 from config import *
 from Common import video
 from PyQt5.QtCore import QThread
-import time
+from datetime import datetime
 
 #
 # 全局变量
@@ -22,20 +22,34 @@ g_face_casc = None
 g_fc_thread = None
 
 # 收集人脸数据保存到文件
-def collect_face_to_file(img, file_path):
+def collect_face_to_file(img, face_name):
+    now = datetime.now()
+    dir = "{}/{}".format(config_ai_fr_data_collect, face_name)
+    if not os.access(dir, os.F_OK):
+        os.makedirs(dir)
+    file_path = "{}/{}.jpg".format(dir, now.strftime('%H_%M_%S'))
     cv2.imwrite(file_path, img)
 
 # 收集人脸数据到视频文件
-def collect_face_to_video(img, file_path):
+def collect_face_to_video(img, face_name):
     pass
 
 #
 # 后台数据收集线程
 #
 class face_collect_thread(QThread):
+    start_colletc = False
+    face_name = ""
+
+    # 收集线程
     def run(self):
         while True:
-            time.sleep(1)
+            self.sleep(1)
+            
+            # 等待收集信号开启
+            if not self.start_colletc:
+                continue
+
             ret, frame = video.read_frame()
             if ret:                        
                 # 转成灰度图片，提高检测速度
@@ -46,8 +60,12 @@ class face_collect_thread(QThread):
                     # 框出人脸
                     for (x, y, w, h) in faces:
                         img_face_gray = frame_gray[y:y+h, x:x+w]
-                        file_path = "{0}/{1:0>4d}.jpg".format(config_ai_fr_data_collect, len(os.listdir(config_ai_fr_data_collect)))
-                        collect_face_to_file(img_face_gray, file_path)
+                        collect_face_to_file(img_face_gray, self.face_name)
+
+    # 启动收集
+    def slot_start_collect(self, face_name):
+        self.face_name = face_name
+        self.start_colletc = True
 
 # 初始化
 def init():

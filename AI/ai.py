@@ -8,7 +8,7 @@
 #
 
 from AI.FaceRecognition import face_collect
-from AI.FaceRecognition import face_recognition
+#from AI.FaceRecognition import face_recognition
 
 def start():
     face_collect.init()

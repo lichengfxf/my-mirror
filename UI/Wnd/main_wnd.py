@@ -12,6 +12,7 @@ from PyQt5 import QtCore
 import cv2
 from Common import video
 from . import Ui_main_wnd
+from AI.FaceRecognition import face_collect
 
 #
 # 主界面
@@ -28,6 +29,8 @@ class MainDlg(QDialog, Ui_main_wnd.Ui_Dialog):
 
         # 绑定按钮点击事件
         #self.btnHello.clicked.connect(self.OnBtnHelloClick)
+        
+        self.btnStartCollect.clicked.connect(self.OnBtnStartCollectClick)
 
         # 创建视频显示线程，绑定后台线程图片显示事件
         self.vedio_show_thread = VideoThread(self)
@@ -37,6 +40,10 @@ class MainDlg(QDialog, Ui_main_wnd.Ui_Dialog):
     # 按钮点击事件
     def OnBtnHelloClick(self):
         QMessageBox.information(self, "hello", "你好")
+
+    def OnBtnStartCollectClick(self):
+        face_name = self.txtFaceName.toPlainText()
+        face_collect.g_fc_thread.slot_start_collect(face_name)
 
     # 显示图片
     def ShowImg(self, image):
