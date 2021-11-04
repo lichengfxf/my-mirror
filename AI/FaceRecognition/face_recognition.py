@@ -8,22 +8,36 @@
 import cv2
 from PIL import Image
 from config import *
+from . import face_util
 
 #
-# 主函数
+# 全局变量
 #
-if __name__ == "__main__":
-    # 载入人类检测分类器
-    face_cascad = cv2.CascadeClassifier(config_ai_fr_face_cascad_file_path)
-    # 载入人脸识别器
+
+
+#
+# 从图片识别人脸
+# 
+def predict_from_img(img):
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     recognizer.read(config_ai_fr_lbph_face_recong)
 
     # 检测人脸
-    img_face, rect = face_detect.detect_face_from_file("img/1 (1).png", face_cascad)
-    cv2.imshow("img", img_face)
-    # 识别人脸
-    lable, confidence = recognizer.predict(img_face)
-    print("lable:{}, confidence:{}".format(lable, confidence))
+    # 转成灰度图片，提高检测速度
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    faces = face_util.detect_from_img(img_gray)
+    for face in faces:
+        # 提取图像中的人脸
+        (x, y, w, h) = face
+        
+        # 框出人脸
+        cv2.rectangle(img, (x, y), (x + w, y + w), (0, 255, 0), 2)
 
-    cv2.waitKey(0)
+        # 识别人脸
+        face_img = img_gray[y:y+h, x:x+w]        
+        lable, confidence = recognizer.predict(face_img)
+        print("lable:{}, confidence:{}".format(lable, confidence))
+    return img
+
+def init():
+    pass

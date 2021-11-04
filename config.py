@@ -15,6 +15,8 @@ config_ai_fr_face_cascad_file_path = "AI/FaceRecognition/haarcascade_frontalface
 config_ai_fr_lbph_face_recong = "AI/FaceRecognition/lbph_face_recong.yml"
 # 收集的人脸数据保存目录
 config_ai_fr_data_collect = "AI/FaceRecognition/Data/Collect"
+# 人脸识别模型训练数据配置文件
+config_ai_fr_conf_train_data = "AI/FaceRecognition/conf_face_labels.json"
 
 #
 # 扩展功能模块

@@ -7,18 +7,17 @@
 #
 
 import os
-from PIL.Image import init
 import cv2
 from numpy.lib.function_base import select
 from config import *
 from Common import video
 from PyQt5.QtCore import QThread
 from datetime import datetime
+from AI.FaceRecognition import face_util
 
 #
 # 全局变量
 #
-g_face_casc = None
 g_fc_thread = None
 
 # 收集人脸数据保存到文件
@@ -55,10 +54,11 @@ class face_collect_thread(QThread):
                 # 转成灰度图片，提高检测速度
                 frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                 # 开始检测人脸
-                faces = g_face_casc.detectMultiScale(frame_gray, scaleFactor=1.15, minNeighbors=5, minSize=(10, 10))
+                faces = face_util.detect_from_img(frame_gray)
                 if len(faces) > 0:
                     # 框出人脸
-                    for (x, y, w, h) in faces:
+                    for face in faces:
+                        (x, y, w, h) = face
                         img_face_gray = frame_gray[y:y+h, x:x+w]
                         collect_face_to_file(img_face_gray, self.face_name)
 
@@ -69,11 +69,7 @@ class face_collect_thread(QThread):
 
 # 初始化
 def init():
-    global g_face_casc
     global g_fc_thread
-
-    # 载入人类检测分类器
-    g_face_casc = cv2.CascadeClassifier(config_ai_fr_face_cascad_file_path)
 
     # 创建相关目录
     if not os.access(config_ai_fr_data_collect, os.F_OK):

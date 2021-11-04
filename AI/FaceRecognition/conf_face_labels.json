@@ -1,0 +1,10 @@
+{
+    "version": 1,
+    "config": [
+       {
+            "name": "licheng",
+            "lable": 1,
+            "img_dir": "AI/FaceRecognition/Data/Collect/licheng"
+       }
+   ]
+}

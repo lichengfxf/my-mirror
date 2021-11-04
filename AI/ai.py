@@ -7,8 +7,11 @@
 # by 李成
 #
 
+from AI.FaceRecognition import face_util
 from AI.FaceRecognition import face_collect
-#from AI.FaceRecognition import face_recognition
+from AI.FaceRecognition import face_recognition
 
 def start():
+    face_util.init()
     face_collect.init()
+    face_recognition.init()

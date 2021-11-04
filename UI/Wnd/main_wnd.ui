@@ -70,6 +70,20 @@ color: rgb(255, 255, 255);</string>
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QPushButton" name="btnStartTrain">
+          <property name="text">
+           <string>开始训练</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnStartPredict">
+          <property name="text">
+           <string>开始识别</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>

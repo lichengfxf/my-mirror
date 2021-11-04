@@ -6,6 +6,18 @@
 # by 李成
 #
 
+'''
+在实际人脸识别中，有很多可用方法，如OpenCV自带的EigenFaceRecognizer(基于PCA降维),FisherFaceRecognizer(基于LDA降维)，
+LBPHFaceRecognizer(基于LBPH特征)，其中只有LBPHFaceRecognizer是支持直接更新的模型算法；
+再如faceNet深度网络模型（128个特征输出）加分类器（如SVM）方式。其他商业应用如旷视科技Megvii Face++,百度AI,等等很多。
+我们需要应用的场景是结果好，对于硬件要求不是很高，方便更新模型，低成本的方式。
+因此我选择了OpenCV自带的LBPHFaceRecognizer算法，这种算法优点是不会受到光照、缩放、旋转和平移的影响，
+这种算法最大的好处就是可以在性能不是很高的ARM板上也可执行，通用化非常好。
+————————————————
+版权声明：本文为CSDN博主「宋连猛」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/weixin_43521467/article/details/103584342
+'''
+
 import cv2
 import os
 import numpy
@@ -32,11 +44,11 @@ def load_imgs(img_dir, train_imgs):
 #
 # 返回值：图像数组和标签数组
 #
-def load_img_and_lables(lable_file_path):
+def load_img_and_lables(conf_face_labels):
     train_imgs = []
     train_lables = []
     # 从json文件读取配置信息
-    with open(lable_file_path) as fp:
+    with open(conf_face_labels) as fp:
         j = json.load(fp)
         config = j["config"]
         for c in config:
@@ -50,10 +62,10 @@ def load_img_and_lables(lable_file_path):
     return train_imgs, train_lables
 
 #
-# 主函数
+# 训练
 #
-if __name__ == "__main__":
+def train():
     recognizer = cv2.face.LBPHFaceRecognizer_create()
-    train_imgs, train_lables = load_img_and_lables("img_lables_conf.json")
+    train_imgs, train_lables = load_img_and_lables(config_ai_fr_conf_train_data)
     recognizer.train(train_imgs, numpy.array(train_lables))
     recognizer.save(config_ai_fr_lbph_face_recong)
