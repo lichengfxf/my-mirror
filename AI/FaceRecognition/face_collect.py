@@ -14,6 +14,8 @@ from Common import video
 from PyQt5.QtCore import QThread
 from datetime import datetime
 from AI.FaceRecognition import face_util
+import uuid
+import logging
 
 #
 # 全局变量
@@ -22,12 +24,13 @@ g_fc_thread = None
 
 # 收集人脸数据保存到文件
 def collect_face_to_file(img, face_name):
-    now = datetime.now()
     dir = "{}/{}".format(config_ai_fr_data_collect, face_name)
     if not os.access(dir, os.F_OK):
         os.makedirs(dir)
-    file_path = "{}/{}.jpg".format(dir, now.strftime('%H_%M_%S'))
-    cv2.imwrite(file_path, img)
+    file_path = "{}/{}.jpg".format(dir, uuid.uuid4().hex)
+    logging.debug("收集人脸数据保存到文件[%s]", file_path)
+    #cv2.imwrite(file_path, img)
+    cv2.imencode('.jpg', img)[1].tofile(file_path)
 
 # 收集人脸数据到视频文件
 def collect_face_to_video(img, face_name):
@@ -49,6 +52,7 @@ class face_collect_thread(QThread):
             if not self.start_colletc:
                 continue
 
+            logging.debug(msg="开启收集人脸数据")
             ret, frame = video.read_frame()
             if ret:                        
                 # 转成灰度图片，提高检测速度
@@ -66,15 +70,23 @@ class face_collect_thread(QThread):
     def slot_start_collect(self, face_name):
         self.face_name = face_name
         self.start_colletc = True
+        logging.debug(msg="启动收集人脸数据")
+
+    # 停止收集
+    def slot_stop_collect(self):
+        self.start_colletc = False
+        logging.debug(msg="停止收集人脸数据")
 
 # 初始化
 def init():
     global g_fc_thread
 
     # 创建相关目录
+    logging.debug(msg="创建相关目录")
     if not os.access(config_ai_fr_data_collect, os.F_OK):
         os.makedirs(config_ai_fr_data_collect)
 
     # 创建后台人脸收集线程
+    logging.debug(msg="创建后台人脸收集线程")
     g_fc_thread = face_collect_thread()
     g_fc_thread.start()

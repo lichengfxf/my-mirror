@@ -42,15 +42,28 @@ class MainDlg(QDialog, Ui_main_wnd.Ui_Dialog):
 
         # 开始识别人脸
         self.start_predict = False
+        self.start_collect = False
     
     # 收集人脸数据
     def OnBtnStartCollectClick(self):
-        face_name = self.txtFaceName.toPlainText()
-        face_collect.g_fc_thread.slot_start_collect(face_name)
+        if not self.start_collect:
+            face_name = self.txtFaceName.toPlainText()
+            if face_name == "":
+                QMessageBox.information(self, "提示", "请输入姓名")
+                return
+            face_collect.g_fc_thread.slot_start_collect(face_name)
+            self.btnStartCollect.setText("停止收集")
+            self.start_collect = True
+        else:
+            face_collect.g_fc_thread.slot_stop_collect()
+            self.btnStartCollect.setText("开始收集")
+            self.start_collect = False
 
     # 开始训练人脸模型
     def OnBtnStartTrainClick(self):
         face_train.train()
+        QMessageBox.information(self, "提示", "训练完成")
+
 
     # 开始识别人脸
     def OnBtnStartPredictClick(self):
@@ -65,7 +78,7 @@ class MainDlg(QDialog, Ui_main_wnd.Ui_Dialog):
         # 转换成QImage
         img = QImage(frame.data, frame.shape[1], frame.shape[0], QImage.Format_RGB888)
         self.VideoShow.setPixmap(QPixmap.fromImage(img))
-
+        
 #
 # 后台线程获取视频数据
 #

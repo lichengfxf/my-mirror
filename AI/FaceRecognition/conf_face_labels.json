@@ -1,10 +1,14 @@
 {
-    "version": 1,
     "config": [
-       {
-            "name": "licheng",
+        {
+            "name": "司淑丹",
             "lable": 1,
-            "img_dir": "AI/FaceRecognition/Data/Collect/licheng"
-       }
-   ]
+            "img_dir": "AI/FaceRecognition/Data/Collect\\司淑丹"
+        },
+        {
+            "name": "李成",
+            "lable": 2,
+            "img_dir": "AI/FaceRecognition/Data/Collect\\李成"
+        }
+    ]
 }

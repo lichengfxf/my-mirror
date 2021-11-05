@@ -8,6 +8,7 @@
 
 import cv2
 from config import *
+import numpy as np
 
 #
 # 全局变量
@@ -45,7 +46,8 @@ def face_detect(img, face_cascad):
 # 返回值：人脸部图像和对应的坐标，如果图像有多个人脸也仅仅返回1个
 #
 def detect_from_file(file_path, face_cascad):
-    img = cv2.imread(file_path)
+    #img = cv2.imread(file_path)
+    img = cv2.imdecode(np.fromfile(file_path, dtype=np.uint8), cv2.IMREAD_COLOR)
     face_gray, rect = face_detect(img, face_cascad)
     if len(face_gray) == 0:
         return [], []

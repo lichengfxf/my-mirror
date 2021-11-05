@@ -9,6 +9,7 @@ import cv2
 from PIL import Image
 from config import *
 from . import face_util
+from . import face_train
 
 #
 # 全局变量
@@ -36,7 +37,8 @@ def predict_from_img(img):
         # 识别人脸
         face_img = img_gray[y:y+h, x:x+w]        
         lable, confidence = recognizer.predict(face_img)
-        print("lable:{}, confidence:{}".format(lable, confidence))
+        name = face_train.get_name_by_lable(lable)
+        print("name:{}, confidence:{:.1f}%".format(name, confidence))
     return img
 
 def init():

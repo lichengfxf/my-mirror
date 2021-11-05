@@ -39,8 +39,45 @@ def load_imgs(img_dir, train_imgs):
         img_array = numpy.array(img)
         train_imgs.append(img_array)
     return len(files)
+
 #
-# 从文件读取图像和标签
+# 分析人脸数据收集目录，生成训练配置文件
+# 该目录下的文件夹名称作为人名，文件夹内的图片作为人名的训练数据
+# 由于训练的时候要求label是int型，所以这里需要建立人名和label的映射关系
+# 
+def generate_train_config():    
+    # 生成人名和图片的映射关系
+    name_img_map = {}
+    files = os.listdir(config_ai_fr_data_collect)
+    for file in files:
+        name = file
+        img_dir = os.path.join(config_ai_fr_data_collect, file)
+        name_img_map[name] = img_dir
+    
+    # 如果没有找到训练数据，返回失败
+    if len(name_img_map) == 0:
+        return False
+
+    # 建立人名和label的映射关系
+    i = 1
+    name_lable_map = {}
+    for name in name_img_map:
+        name_lable_map[name] = i
+        i += 1
+
+    # 写入训练配置文件
+    config = []
+    for name in name_img_map:
+        img_dir = name_img_map[name]
+        lable = name_lable_map[name]
+        config.append({"name": name, "lable": lable, "img_dir": img_dir})
+    with open(config_ai_fr_conf_train_data, "w") as fp:
+        json.dump({"config": config}, fp, indent=4, ensure_ascii=False)
+
+    return True
+
+#
+# 从训练配置文件读取图像和标签
 #
 # 返回值：图像数组和标签数组
 #
@@ -62,10 +99,28 @@ def load_img_and_lables(conf_face_labels):
     return train_imgs, train_lables
 
 #
+# 从训练配置文件中根据标签获取人名
+#
+def get_name_by_lable(lable):
+    with open(config_ai_fr_conf_train_data) as fp:
+        j = json.load(fp)
+        config = j["config"]
+        for c in config:
+            if c["lable"] == lable:
+                return c["name"]
+    return ""
+
+#
 # 训练
 #
 def train():
     recognizer = cv2.face.LBPHFaceRecognizer_create()
+    # 读取训练数据
+    if not generate_train_config():
+        print("没有找到训练数据，请先收集训练数据")
+        return
     train_imgs, train_lables = load_img_and_lables(config_ai_fr_conf_train_data)
+    # 训练
     recognizer.train(train_imgs, numpy.array(train_lables))
+    # 保存训练结果
     recognizer.save(config_ai_fr_lbph_face_recong)

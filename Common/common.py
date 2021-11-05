@@ -8,6 +8,7 @@
 #
 
 from Common import video
-
+from Common import log
 def start():
+    log.init()
     video.init()
